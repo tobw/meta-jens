@@ -23,12 +23,12 @@ RDEPENDS_${PN} += "encode-perl"
 RDEPENDS_${PN}-dev += "devel-cycle-perl devel-leak-object-perl devel-stacktrace-perl"
 RDEPENDS_${PN}-dev += "test-memory-cycle-perl test-leaktrace-perl"
 
-PV = "0.1"
+HP2SMREV="4843"
+PV = "0.1-${HP2SMREV}"
 
-SRC_URI = "svn://192.168.1.186/svn/EW_Prj/001/HP_ServiceMonitor/trunk;protocol=http;module=hp2sm;rev=4843"
+SRC_URI = "svn://192.168.1.186/svn/EW_Prj/001/HP_ServiceMonitor/trunk;protocol=http;module=hp2sm;rev=${HP2SMREV}"
 SRC_URI += "file://hp2sm.run"
 SRC_URI += "file://hp2sm-log.run"
-S = "${WORKDIR}/hp2sm/src"
 
 SERVICE_ROOT = "${sysconfdir}/daemontools/service"
 HP2SM_SERVICE_DIR = "${SERVICE_ROOT}/hp2sm"
@@ -44,8 +44,9 @@ do_install() {
 	
 	#create directory for source
 	install -d ${D}/opt/rdm/hp2sm
+
 	#copy all
-	(cd ${S} && tar cf - .) | (cd ${D}/opt/rdm/hp2sm && tar xf -)
+	(cd ${WORKDIR}/hp2sm/src && tar cf - .) | (cd ${D}/opt/rdm/hp2sm && tar xf -)
 }
 
 FILES_${PN} += "/opt/rdm/hp2sm \
