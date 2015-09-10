@@ -1,13 +1,13 @@
 #!/bin/sh 
 
-PLACK_APP="/opt/rdm/hp2sm/bin/app.pl"
-PLACK_PORT=8081
+PLACK_APP="/opt/rdm/hp2sm/bin/app.psgi"
 PLACK_ENV="production"
-STARMAN_WORKERS=2
-OPTIONS="--env ${PLACK_ENV} --listen :${PLACK_PORT} --workers ${STARMAN_WORKERS} ${PLACK_APP}"
+PLACK_PORT=8081
+PLACK_SERVER="Net::Async::HTTP::Server"
+OPTIONS="--server ${PLACK_SERVER} --env ${PLACK_ENV} --listen :${PLACK_PORT} ${PLACK_APP}"
 PIDFILE="/var/run/hp2sm.pid"
 
 export SYSTEM_IMAGE_UPDATE_DIR=/data/.update
 mkdir ${SYSTEM_IMAGE_UPDATE_DIR}
 
-exec start-stop-daemon -m --start --quiet --pidfile "$PIDFILE" --exec starman -- $OPTIONS 2>&1
+exec start-stop-daemon -m --start --quiet --pidfile "$PIDFILE" --exec plackup -- $OPTIONS 2>&1
