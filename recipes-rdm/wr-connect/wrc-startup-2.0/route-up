@@ -1,0 +1,4 @@
+#!/bin/sh
+
+svc -o "/etc/daemontools/service/wrc_data"
+exit 0
