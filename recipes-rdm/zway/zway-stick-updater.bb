@@ -16,8 +16,8 @@ RDEPENDS_${PN} += "python-fcntl"
 RDEPENDS_${PN} += "python-logging"
 RDEPENDS_${PN} += "python-pyserial"
 
-SRC_URI[updater.md5sum] = "0de675f8fc08cf83ccc363404806fb11"
-SRC_URI[updater.sha256sum] = "1006970f683c5755a1260f56e609a7d4b103900519b264abcae2f80dd2a63c1d"
+SRC_URI[updater.md5sum] = "795881353712024d1a07178dc7cc8ab1"
+SRC_URI[updater.sha256sum] = "638c90b8377bd534a944fbd81162d5c0d4d8154df96b0d980cc21efdd3ab9249"
 
 INST_DEST_PREFIX="/opt/z-way-stick-updater"
 
