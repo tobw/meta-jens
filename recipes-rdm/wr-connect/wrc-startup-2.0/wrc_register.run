@@ -1,3 +1,3 @@
 #!/bin/sh
 
-exec /usr/bin/perl -Mlib=/opt/rdm/hp2sm/lib -Mstrict -Mwarnings -Mhp2sm::RestAPI::System::Services -e 'hp2sm::RestAPI::System::Services->new->service("wrc_register")->run;' 2>&1
+exec /usr/bin/perl -Mlib=/opt/rdm/hp2sm/lib -Mstrict -Mwarnings -Mhp2sm::RestAPI::System::Services -e '$| = 1; hp2sm::RestAPI::System::Services->new->service("wrc_register")->run;' 2>&1
