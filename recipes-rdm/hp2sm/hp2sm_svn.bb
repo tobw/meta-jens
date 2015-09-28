@@ -33,7 +33,7 @@ RDEPENDS_${PN}-dev += "devel-stacktrace-perl"
 RDEPENDS_${PN}-dev += "test-leaktrace-perl"
 RDEPENDS_${PN}-dev += "test-memory-cycle-perl"
 
-HP2SMREV="4980"
+HP2SMREV="5022"
 PV = "0.1-${HP2SMREV}"
 
 SRC_URI += "svn://192.168.1.186/svn/EW_Prj/001/HP_ServiceMonitor/branches/next;protocol=http;module=hp2sm;rev=${HP2SMREV}"
