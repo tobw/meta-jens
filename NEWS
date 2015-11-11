@@ -14,6 +14,7 @@ Revision history for HomePilot
     - busybox: improve syslogd configuration
     - collectd: optimize collectd.conf
     - cleanup collectd basedir
+	- fix z-way memory issue
 
 4.0.26 2015-08-12
     - hp2sm Update
