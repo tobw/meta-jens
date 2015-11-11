@@ -169,7 +169,10 @@ then
 	test -d /data/.shadow/.etc/rc5.d/ && echo "/data/.shadow/.etc/rc5.d/" >> /etc/overlay.mrproper
 
 	logger "Cleanup thermaldetails data"
-	test -d /data/thermaldetails/ && echo "/data/thermaldetails/" >> /etc/overlay.mrproper
+	test -d /data/thermaldetails && rm -rf "/data/thermaldetails"
+
+	logger "Cleanup collectd data"
+	test -d /var/lib/collectd && rm -rf "/var/lib/collectd"
 
 	logger "Cleanup services"
 	test -d /data/.shadow/.etc/daemontools/service && echo "/data/.shadow/.etc/daemontools/service" >> /etc/overlay.mrproper
