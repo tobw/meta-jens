@@ -1,6 +1,6 @@
 Revision history for HomePilot
 
-4.0.27
+4.0.27 2015-11-11
     - update uboot-curie to support rev-e
       * Port to RevE with the watchdog reset pin support
     - update linux-curie to support rev-e and to pass HDMI certification
@@ -9,6 +9,11 @@ Revision history for HomePilot
       * Initialize the Watchdog reset pin in RevE
     - add service page for favourites
     - fix broken system-image-update edge-case when booting without internet
+    - samba: decrease log level to 0
+    - cronie: disable unused cron.hourly
+    - busybox: improve syslogd configuration
+    - collectd: optimize collectd.conf
+    - cleanup collectd basedir
 
 4.0.26 2015-08-12
     - hp2sm Update
