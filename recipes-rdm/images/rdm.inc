@@ -1,7 +1,6 @@
 RDM_BASE_INSTALL = "hp2sm \
 	alsa-utils \
 	cronie \
-	collectd-graphs \
 	fontconfig \
 	liberation-fonts \
 	date-set \
