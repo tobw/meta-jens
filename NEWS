@@ -1,11 +1,11 @@
 Revision history for HomePilot
 
 4.0.29 2015-11-12
-    - re-enable: fix z-way memory issue
+    - add fix z-way memory issue again
 
 4.0.28 2015-11-12
     - remove collectd-graphs
-    - revert: fix z-way memory issue
+    - remove fix z-way memory issue for emergency update
 
 4.0.27 2015-11-11
     - update uboot-curie to support rev-e
