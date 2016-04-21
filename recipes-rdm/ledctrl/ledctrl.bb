@@ -3,8 +3,7 @@ LICENSE = "GPL-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
 
 SRC_URI = "\
-    file://ledplay_s.sh \
-    file://ledplay_m.sh \
+    file://ledplay.sh \
     file://ledbootup.sh \
     file://ledgodown.sh \
     file://ledbootdown.sh \
@@ -34,7 +33,7 @@ LEDREADY_SERVICE_DIR = "${SERVICE_ROOT}/ledready"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 do_compile () {
-    cp ${WORKDIR}/ledplay_s.sh ${WORKDIR}/ledplay_m.sh ${WORKDIR}/ledreadyonce.sh \
+    cp ${WORKDIR}/ledplay.sh ${WORKDIR}/ledreadyonce.sh \
         ${WORKDIR}/ledgodown.sh ${WORKDIR}/ledbootdown.sh ${WORKDIR}/ledbootup.sh \
         ${WORKDIR}/ledctrl-helper.sh ${WORKDIR}/ledctrl-helper.sudoers ${B}/
     sed -i -e "s,@LEDREADY_SERVICE_DIR@,${LEDREADY_SERVICE_DIR},g" -e "s,@LIBEXEC[@],${libexecdir},g" \
@@ -63,10 +62,9 @@ do_install () {
 
     # install and setup SysV init scripts
     install -d ${D}${sysconfdir}/init.d
-    install -m 0755 ${B}/ledplay_s.sh ${B}/ledplay_m.sh ${B}/ledreadyonce.sh ${B}/ledgodown.sh ${B}/ledbootdown.sh ${D}${sysconfdir}/init.d/
+    install -m 0755 ${B}/ledplay.sh ${B}/ledreadyonce.sh ${B}/ledgodown.sh ${B}/ledbootdown.sh ${D}${sysconfdir}/init.d/
 
-    update-rc.d -r ${D} ledplay_s.sh start 03 S .
-    update-rc.d -r ${D} ledplay_m.sh start 06 2 3 4 5 .
+    update-rc.d -r ${D} ledplay.sh start 03 S .
     update-rc.d -r ${D} ledreadyonce.sh start 95 5 .
     update-rc.d -r ${D} ledgodown.sh stop 99 6 .
     update-rc.d -r ${D} ledbootdown.sh stop 15 0 .

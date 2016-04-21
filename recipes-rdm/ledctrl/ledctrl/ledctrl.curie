@@ -85,18 +85,8 @@ led_bootgodown () {
     echo heartbeat >/sys/class/leds/boot/trigger
 }
 
-led_test_s () {
-    for led in user2 user1 error
-    do
-	echo 0 >/sys/class/leds/${led}/brightness
-	echo 255 >/sys/class/leds/${led}/brightness
-	sleep 1
-	echo 0 >/sys/class/leds/${led}/brightness
-    done
-}
-
-led_test_m () {
-    for led in wifi boot
+led_test () {
+    for led in user2 user1 error wifi boot
     do
 	echo 0 >/sys/class/leds/${led}/brightness
 	echo 255 >/sys/class/leds/${led}/brightness

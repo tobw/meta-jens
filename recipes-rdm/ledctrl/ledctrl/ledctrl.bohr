@@ -79,19 +79,15 @@ led_bootgodown () {
     echo heartbeat >/sys/class/leds/guruplug:red:health/trigger
 }
 
-led_test_s () {
-    for led in guruplug:green:health guruplug:green:wmode guruplug:red:wmode
+led_test () {
+    for led in guruplug:green:health guruplug:red:health guruplug:green:wmode guruplug:red:wmode
     do
 	echo 0 >/sys/class/leds/${led}/brightness
 	echo 255 >/sys/class/leds/${led}/brightness
 	sleep 1
 	echo 0 >/sys/class/leds/${led}/brightness
     done
-}
 
-led_test_m () {
-    echo 0 >/sys/class/leds/guruplug:red:health/brightness
     echo 255 >/sys/class/leds/guruplug:red:health/brightness
-    sleep 1
     echo heartbeat >/sys/class/leds/guruplug:red:health/trigger
 }
