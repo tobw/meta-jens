@@ -1,0 +1,14 @@
+--- a/debian/ifupdown/functions.sh	2016-04-21 11:14:44.162124882 +0200
++++ b/debian/ifupdown/functions.sh	2016-04-21 13:16:29.658152382 +0200
+@@ -324,6 +324,11 @@
+ 	start-stop-daemon --stop --oknodo $DAEMON_VERBOSITY \
+ 		--exec $WPA_SUP_BIN --pidfile $WPA_SUP_PIDFILE
+ 
++	for i in $(seq 1 20); do
++		test_wpa_supplicant || break
++		sleep 1
++	done
++
+ 	if [ -f "$WPA_SUP_PIDFILE" ]; then
+ 		rm -f "$WPA_SUP_PIDFILE"
+ 	fi
