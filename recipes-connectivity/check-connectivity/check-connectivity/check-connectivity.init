@@ -10,8 +10,12 @@
 
 case "$1" in
   start)
-        NDEVS=`egrep -v '^lo.*=' /run/ifstate | grep -v nonet | wc -l`
-        test $NDEVS -ge 1 || @BINDIR@/enable-error no-carrier
+        NDEVS=`egrep -v -e '^lo.*=' -e '-nonet$' /run/ifstate | wc -l`
+        if [ $NDEVS -ge 1 ]; then
+                @BINDIR@/disable-error no-carrier
+        else
+                @BINDIR@/enable-error no-carrier
+        fi
         ;;
   *)
         N=/etc/init.d/$NAME
