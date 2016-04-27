@@ -5,4 +5,5 @@ country=EU
 
 network={
         key_mgmt=NONE
+        disabled=1
 }
