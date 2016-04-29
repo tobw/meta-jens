@@ -2,8 +2,3 @@ ctrl_interface=/run/wpa_supplicant
 ctrl_interface_group=0
 update_config=1
 country=EU
-
-network={
-        key_mgmt=NONE
-        disabled=1
-}
