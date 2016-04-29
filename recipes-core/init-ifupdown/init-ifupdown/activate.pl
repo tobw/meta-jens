@@ -14,7 +14,7 @@ my %mapping = map { chomp; split } (<>);
 my $status;
 
 if ( $devname =~ m/^wlan/
-    and ( read_file("/etc/wpa_supplicant.conf") !~ m/network=\{\s+ssid/ms or eval { read_file("/sys/class/net/eth0/carrier") == 1 } ) )
+    and ( read_file("/etc/wpa_supplicant.conf") !~ m/network=\{/ms or eval { read_file("/sys/class/net/eth0/carrier") == 1 } ) )
 {
     $status = "NONET";
 }
