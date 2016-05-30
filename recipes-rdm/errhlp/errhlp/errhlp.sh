@@ -14,7 +14,7 @@ CALL_NAME=`basename "$0"`
 case "$CALL_NAME" in
     enable-error)
         touch "/run/hp-errors/$1"
-	led_error
+	# led_error
         ;;
     disable-error)
         rm -f "/run/hp-errors/$1"
@@ -25,7 +25,7 @@ case "$CALL_NAME" in
 	test -z "$ERRCNT" && ERRCNT=0
 	ERRCNT=$(expr $ERRCNT + 1)
 	echo "$ERRCNT" > /run/hp-errors/count-$1
-	led_error
+	# led_error
         ;;
     disable-counted-error)
         test -f "/run/hp-errors/count-$1" && ERRCNT=$(cat /run/hp-errors/count-$1)
