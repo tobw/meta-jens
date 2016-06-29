@@ -41,6 +41,9 @@ RDM_BASE_INSTALL = "\
 RDM_BASE_INSTALL_append_curie = "\
 	wa-mmc-timeout \
 "
+RDM_BASE_INSTALL_append_bohr = "\
+	wa-mmc-timeout \
+"
 RDM_ESSENTIALS_append_bohr = "\
 	ledctrl \
 "
