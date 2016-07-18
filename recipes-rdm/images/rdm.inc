@@ -41,6 +41,9 @@ RDM_BASE_INSTALL = "\
 RDM_BASE_INSTALL_append_curie = "\
 	wa-mmc-timeout \
 "
+RDM_BASE_INSTALL_append_bohr = "\
+	udev-rules-bohr \
+"
 RDM_ESSENTIALS_append_bohr = "\
 	ledctrl \
 "
@@ -56,9 +59,6 @@ RDM_INSTALL = "${RDM_BASE_INSTALL} \
 	delivery-reset \
 	ksm-init \
 	openvpn \
-"
-RDM_INSTALL_append_bohr = "\
-	udev-rules-bohr \
 "
 RDM_INSTALL_append_curie = "\
 	udev-rules-imx \
