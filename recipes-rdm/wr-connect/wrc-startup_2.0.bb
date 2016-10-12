@@ -3,6 +3,7 @@ DESCRIPTION = "WR Connect 2 startup script"
 LICENSE = "Proprietary"
 LIC_FILES_CHKSUM = "file://${THISDIR}/wrc-startup-2.0/license.txt;md5=3ebe3464e841ddbf115af1f7019017c5"
 
+SRC_URI += "file://crond-wrc"
 SRC_URI += "file://route-up"
 SRC_URI += "file://wrc-log.run"
 SRC_URI += "file://wrc.run"
@@ -46,4 +47,7 @@ do_install () {
 
     install -d ${D}${libexecdir}
     install -m 0755 ${WORKDIR}/route-up ${D}${libexecdir}/route-up
+
+    install -d ${D}${sysconfdir}/cron.d
+    install -m 0600 ${WORKDIR}/crond-wrc ${D}${sysconfdir}/cron.d/wrc
 }

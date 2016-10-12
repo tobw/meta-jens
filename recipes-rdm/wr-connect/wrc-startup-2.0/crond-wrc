@@ -1,0 +1,8 @@
+# /etc/cron.d/wrc: wrc crontab
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+RANDOM_DELAY=1440
+
+#  m  h  dom mon dow user	command
+ 30  7     * * *    root        cd / && svc -o /etc/daemontools/service/wrc_data
