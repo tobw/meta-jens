@@ -7,5 +7,6 @@
 -A INPUT -i tun+ -p tcp -m conntrack --ctstate NEW -m tcp --dport 80 -j ACCEPT
 -A INPUT -i tun+ -p icmp -j ACCEPT
 -A INPUT -i tun+ -j REJECT --reject-with icmp6-port-unreachable
+-A OUTPUT -o tun+ -p udp -j REJECT --reject-with icmp6-port-unreachable
 COMMIT
 # Completed on Tue Oct 25 13:33:23 2016

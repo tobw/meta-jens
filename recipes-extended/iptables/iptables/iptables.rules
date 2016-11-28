@@ -8,5 +8,6 @@
 -A INPUT -i tun+ -p icmp -j ACCEPT
 -A INPUT -i tun+ -j REJECT --reject-with icmp-port-unreachable
 -A OUTPUT -d 100.120.1.1/32 ! -o tun+ -j REJECT --reject-with icmp-port-unreachable
+-A OUTPUT -o tun+ -p udp -j REJECT --reject-with icmp-port-unreachable
 COMMIT
 # Completed on Tue Oct 25 13:33:23 2016
