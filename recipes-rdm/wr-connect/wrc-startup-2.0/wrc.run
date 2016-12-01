@@ -2,7 +2,7 @@
 
 OPENVPN_CONFIG="/etc/wrc/homepilot.ovpn"
 OPENVPN_ROUTE_UP="/usr/lib/wrc-startup/route-up"
-OPENVPN_PARAMETER="--config ${OPENVPN_CONFIG} --route-up ${OPENVPN_ROUTE_UP} --script-security 2 --management /run/openvpn.sock unix --management-client-user root --management-client-group root --status /run/openvpn.status --suppress-timestamps --connect-retry 120 --connect-retry-max 10"
+OPENVPN_PARAMETER="--config ${OPENVPN_CONFIG} --route-up ${OPENVPN_ROUTE_UP} --script-security 2 --management /run/openvpn.sock unix --management-client-user root --management-client-group root --status /run/openvpn.status --suppress-timestamps --connect-retry 120 --connect-retry-max 10 --remap-usr1 SIGTERM"
 test -f $OPENVPN_CONFIG || exit 100
 
 ntp-wait 2>&1 || exit 1
