@@ -7,7 +7,7 @@ test -f $OPENVPN_CONFIG || exit 100
 
 ntp-wait 2>&1 || exit 1
 
-test -f "/tmp/wrc-skip-delay.once" || sleep $(( 30 + ( $RANDOM % 60 ) ))
+test -f "/tmp/wrc-skip-delay.once" || sleep $(( $RANDOM % 60 ))
 test -f "/tmp/wrc-skip-delay.once" && rm -f "/tmp/wrc-skip-delay.once"
 
 exec openvpn $OPENVPN_PARAMETER 2>&1
