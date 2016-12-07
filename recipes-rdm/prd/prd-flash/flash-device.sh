@@ -207,6 +207,10 @@ then
 	logger "Cleanup known_hosts"
 	test -f /data/.shadow/.home/root/.ssh/known_hosts && echo "/data/.shadow/.home/root/.ssh/known_hosts" >> /etc/overlay.mrproper
 
+	logger "Fix permissions"
+	test -f /var/lib/dropbear/dropbear_rsa_host_key && chmod 600 /var/lib/dropbear/dropbear_rsa_host_key
+	test -f /data/.dropbear/dropbear_rsa_host_key && chmod 600 /data/.dropbear/dropbear_rsa_host_key
+
 	logger "Create backup"
 	if [ -d /var/lib/dropbear ]
 	then
