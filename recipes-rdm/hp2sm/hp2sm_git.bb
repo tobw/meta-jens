@@ -79,7 +79,6 @@ PACKAGES =+ "${PN}-ethtool"
 PACKAGES =+ "${PN}-system-date"
 PACKAGES =+ "${PN}-system-service"
 PACKAGES =+ "${PN}-system-wrc2"
-PACKAGES =+ "${PN}-system-wrc2-test"
 PACKAGES =+ "${PN}-xbmc"
 PACKAGES =+ "${PN}-zway"
 
