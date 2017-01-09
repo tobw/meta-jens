@@ -13,7 +13,7 @@ RDEPENDS_${PN} = "nqp"
 
 inherit perlnative siteinfo
 
-SRC_URI = "http://rakudo.org/downloads/star/archive/rakudo-star-${PV}.tar.gz"
+SRC_URI = "http://rakudo.org/downloads/star/rakudo-star-${PV}.tar.gz"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=18740546821e33d23e8809da70d4a79a"
 
 do_configure_prepend_class-target () {
