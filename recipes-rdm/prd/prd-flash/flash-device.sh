@@ -179,66 +179,24 @@ then
 
 	touch /etc/overlay.mrproper
 
-	logger "Going to cleanup relics"
-	if [ -d  /data/.shadow/.var_lib ]
-	then
-	    test -d /data/.var/lib || mkdir -p /data/.var/lib
-		# XXX remove unionfs files
-	    (cd /data/.shadow/.var_lib && tar cf - nginx dropbear) | (cd /data/.var/lib && tar xf -)
-	    test -d  /data/.shadow/.var_lib && echo "/data/.shadow/.var_lib" >> /etc/overlay.mrproper
-	fi
-
-	logger "Cleanup deprecated set-update-channel scripts"
-	test -d /data/.shadow/.etc/init.d/ && echo "/data/.shadow/.etc/init.d/" >> /etc/overlay.mrproper
-	test -d /data/.shadow/.etc/rc5.d/ && echo "/data/.shadow/.etc/rc5.d/" >> /etc/overlay.mrproper
-
-	logger "Cleanup thermaldetails data"
-	test -d /data/thermaldetails && rm -rf "/data/thermaldetails"
-
-	logger "Cleanup collectd data"
-	test -d /var/lib/collectd && rm -rf "/var/lib/collectd"
-
+	# ensure clean sysimg_update.json after each update
 	logger "Cleanup services"
 	test -f /data/.shadow/.etc/sysimg_update.json && echo "/data/.shadow/.etc/sysimg_update.json" >> /etc/overlay.mrproper
 
-	logger "Cleanup deprecated xbmc folder"
-	test -d /data/.shadow/.home/xbmc/.xbmc && echo "/data/.shadow/.home/xbmc/.xbmc" >> /etc/overlay.mrproper
-
+	# delete known_hosts in overlay with every update to ensure that we can change the content of this file
 	logger "Cleanup known_hosts"
 	test -f /data/.shadow/.home/root/.ssh/known_hosts && echo "/data/.shadow/.home/root/.ssh/known_hosts" >> /etc/overlay.mrproper
 
-	logger "Fix permissions"
-	test -f /var/lib/dropbear/dropbear_rsa_host_key && chmod 600 /var/lib/dropbear/dropbear_rsa_host_key
-	test -f /data/.dropbear/dropbear_rsa_host_key && chmod 600 /data/.dropbear/dropbear_rsa_host_key
-
+	# backup the ssh key
 	logger "Create backup"
 	if [ -d /var/lib/dropbear ]
 	then
-		test -d /data/.dropbear || cp -r /var/lib/dropbear /data/.dropbear
-	fi
-
-	if [ -f /data/.shadow/.etc/modules-load.d/wifi.conf ]
-	then
-		logger "Migrate wireless configuration"
-		grep -q "^8189es$" /data/.shadow/.etc/modules-load.d/wifi.conf && touch /etc/wpa_supplicant.enabled
-
-		logger "Cleanup modules-load.d"
-		echo "/data/.shadow/.etc/modules-load.d/wifi.conf" >> /etc/overlay.mrproper
-	fi
-
-	if [ -f /data/.shadow/.etc/wpa_supplicant.conf ]
-	then
-		logger -s "Trying to merge /etc/wpa_supplicant.conf"
-		mkdir -p /run/media/${ROOT_DEV_NAME}${ROOT_DEV_SEP}3
-		mount -o bind / /run/media/${ROOT_DEV_NAME}${ROOT_DEV_SEP}3
-		cp /run/media/${ROOT_DEV_NAME}${ROOT_DEV_SEP}3/etc/wpa_supplicant.conf /data/.shadow/.etc/wpa_supplicant.conf.new
-		perl -le 'open(my $fh, "<", "/data/.shadow/.etc/wpa_supplicant.conf"); my $cnt; { local $/; $cnt = <$fh> }; $cnt =~ m/^(network=\{.+?^\})/ms; print $1' >> /data/.shadow/.etc/wpa_supplicant.conf.new
-		test -f /etc/wpa_supplicant.conf.new && mv /etc/wpa_supplicant.conf.new /etc/wpa_supplicant.conf
-		umount /run/media/${ROOT_DEV_NAME}${ROOT_DEV_SEP}3
+	    test -d /data/.dropbear || cp -r /var/lib/dropbear /data/.dropbear
 	fi
 
 	logger "Removing update container"
 	rm -f "${IMAGE_CONTAINER}"
+
 	logger "Force rebuild of volatiles.cache next boot"
         rm -f /etc/volatile.cache
 
