@@ -19,9 +19,8 @@ for c in /data/.flashimg/*-complete.cpi /data/flashimg/*-complete
 do
     if [ -f "${c}" -o -d "${c}" ]
     then
-	IMAGE_CONTAINER="${c}"
-
-	break
+        IMAGE_CONTAINER="${c}"
+        break
     fi
 done
 
@@ -49,18 +48,18 @@ then
 
     for w in ${AVAIL_ROOT_DEVS}
     do
-	devnm="ROOT_DEV_NAME_${w}"
-	dev=$(eval echo /dev/\$${devnm})
-	if test -e $dev
-	then
-	    test ${DEV_FOUND} -eq 1 && continue
-	    if [ "${WANTED_ROOT_DEV}" != "$w" ]
-	    then
-		logger -s "Cannot flash incompatible image ($dev but no $w image)"
-		trigger_error
-	    fi
-	    DEV_FOUND=1
-	fi
+        devnm="ROOT_DEV_NAME_${w}"
+        dev=$(eval echo /dev/\$${devnm})
+        if test -e $dev
+        then
+            test ${DEV_FOUND} -eq 1 && continue
+            if [ "${WANTED_ROOT_DEV}" != "$w" ]
+            then
+                logger -s "Cannot flash incompatible image ($dev but no $w image)"
+                trigger_error
+            fi
+            DEV_FOUND=1
+        fi
     done
 
     DEVICE_PATH="/dev/${ROOT_DEV_NAME}"
@@ -113,14 +112,14 @@ then
 
     if [ "${MACHINE}" != "`echo @MACHINE@ | sed -e 's/-*//'`" ]
     then
-	logger -s "Cannot perform an update for ${MACHINE}."
-	trigger_error
+        logger -s "Cannot perform an update for ${MACHINE}."
+        trigger_error
     fi
 
     if [ "$WANTED_ROOT_DEV" != "@WANTED_ROOT_DEV@" ]
     then
-	logger -s "Cannot write to ${WANTED_ROOT_DEV}, flashing limited to @WANTED_ROOT_DEV@."
-	trigger_error
+        logger -s "Cannot write to ${WANTED_ROOT_DEV}, flashing limited to @WANTED_ROOT_DEV@."
+        trigger_error
     fi
 
     . @LIBEXEC@/init.@ROOT_DEV_TYPE@
@@ -131,80 +130,80 @@ then
 
     if [ $(echo ${ROOTDEV} | egrep "${ROOT_DEV_SEP}2\$") ]
     then
-	REGULAR=Y
-	logger "Updating phase 1"
+        REGULAR=Y
+        logger "Updating phase 1"
 
-	trigger_recover
+        trigger_recover
 
-	update_fs
+        update_fs
 
-	logger "Going to extract recovery image"
-	wipe_recoveryfs
-	tar xjf "${IMAGE_CONTAINER}" -O ${RECOVERIMG} | update_recoveryfs
+        logger "Going to extract recovery image"
+        wipe_recoveryfs
+        tar xjf "${IMAGE_CONTAINER}" -O ${RECOVERIMG} | update_recoveryfs
 
-	mount /boot
+        mount /boot
 
-	logger "Going to extract kernel"
-	(cd /boot && tar xjf "${IMAGE_CONTAINER}" ${KERNEL} && chown -R root:root . && eval ${KERNEL_PREPARE})
+        logger "Going to extract kernel"
+        (cd /boot && tar xjf "${IMAGE_CONTAINER}" ${KERNEL} && chown -R root:root . && eval ${KERNEL_PREPARE})
 
-	if require_update_uboot
-	then
-	    logger "Going to extract u-boot"
-	    tar xjf "${IMAGE_CONTAINER}" -O ${UBOOT_BIN} | update_uboot
-	    uboot_setenv
-	else
-	    logger "u-boot is fine, remains untouched"
-	fi
+        if require_update_uboot
+        then
+            logger "Going to extract u-boot"
+            tar xjf "${IMAGE_CONTAINER}" -O ${UBOOT_BIN} | update_uboot
+            uboot_setenv
+        else
+            logger "u-boot is fine, remains untouched"
+        fi
 
-	logger "Force rebuild of volatiles.cache next boot"
+        logger "Force rebuild of volatiles.cache next boot"
         rm -f /etc/volatile.cache
 
-	logger "Requesting reboot"
-	reboot
+        logger "Requesting reboot"
+        reboot
     elif [ $(echo ${ROOTDEV} | egrep "${ROOT_DEV_SEP}3\$") ]
     then
-	RECOVERY=Y
-	logger "Updating phase 2"
+        RECOVERY=Y
+        logger "Updating phase 2"
 
-	trigger_root
+        trigger_root
 
-	logger "Going to extract rootfs image"
-	wipe_rootfs
-	tar xjf "${IMAGE_CONTAINER}" -O ${ROOTIMG} | update_rootfs
+        logger "Going to extract rootfs image"
+        wipe_rootfs
+        tar xjf "${IMAGE_CONTAINER}" -O ${ROOTIMG} | update_rootfs
 
-	logger "Sanitize kernel"
-	mount /boot
-	(cd /boot && eval ${KERNEL_SANITIZE})
-	(cd /data && mkdir -p ${UNION_SHADOWS})
+        logger "Sanitize kernel"
+        mount /boot
+        (cd /boot && eval ${KERNEL_SANITIZE})
+        (cd /data && mkdir -p ${UNION_SHADOWS})
 
-	touch /etc/overlay.mrproper
+        touch /etc/overlay.mrproper
 
-	# ensure clean sysimg_update.json after each update
-	logger "Cleanup services"
-	test -f /data/.shadow/.etc/sysimg_update.json && echo "/data/.shadow/.etc/sysimg_update.json" >> /etc/overlay.mrproper
+        # ensure clean sysimg_update.json after each update
+        logger "Cleanup services"
+        test -f /data/.shadow/.etc/sysimg_update.json && echo "/data/.shadow/.etc/sysimg_update.json" >> /etc/overlay.mrproper
 
-	# delete known_hosts in overlay with every update to ensure that we can change the content of this file
-	logger "Cleanup known_hosts"
-	test -f /data/.shadow/.home/root/.ssh/known_hosts && echo "/data/.shadow/.home/root/.ssh/known_hosts" >> /etc/overlay.mrproper
+        # delete known_hosts in overlay with every update to ensure that we can change the content of this file
+        logger "Cleanup known_hosts"
+        test -f /data/.shadow/.home/root/.ssh/known_hosts && echo "/data/.shadow/.home/root/.ssh/known_hosts" >> /etc/overlay.mrproper
 
-	# backup the ssh key
-	logger "Create backup"
-	if [ -d /var/lib/dropbear ]
-	then
-	    test -d /data/.dropbear || cp -r /var/lib/dropbear /data/.dropbear
-	fi
+        # backup the ssh key
+        logger "Create backup"
+        if [ -d /var/lib/dropbear ]
+        then
+            test -d /data/.dropbear || cp -r /var/lib/dropbear /data/.dropbear
+        fi
 
-	logger "Removing update container"
-	rm -f "${IMAGE_CONTAINER}"
+        logger "Removing update container"
+        rm -f "${IMAGE_CONTAINER}"
 
-	logger "Force rebuild of volatiles.cache next boot"
+        logger "Force rebuild of volatiles.cache next boot"
         rm -f /etc/volatile.cache
 
-	logger "Requesting reboot"
-	reboot
+        logger "Requesting reboot"
+        reboot
     else
-	rm -f .settings
-	logger -s "Cannot detect normal mode nor recovery mode. Fix and retry."
-	trigger_error
+        rm -f .settings
+        logger -s "Cannot detect normal mode nor recovery mode. Fix and retry."
+        trigger_error
     fi
 fi
