@@ -1,4 +1,6 @@
 Revision history for HomePilot
+4.5.3
+    - update script: removed obsolete cleanups and fix whitespace
 
 4.5.2 2017-02-28
     - wrc-startup: make ntp-wait optional
