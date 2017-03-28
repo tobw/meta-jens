@@ -16,6 +16,7 @@ SRC_URI = "git://github.com/rdm-dev/System-Image-Update.git;rev=2692bda354323736
            file://log.run \
 	   file://sysimg_update.json \
 	   file://system-image-update-logrotate.conf \
+	   file://public.pem \
 "
 
 RDEPENDS_${PN} += "archive-peek-libarchive-perl"
@@ -63,6 +64,9 @@ do_install_append() {
 
     install -m 755 -d ${D}${sysconfdir}/logrotate.d
     install -m 644 ${WORKDIR}/system-image-update-logrotate.conf ${D}${sysconfdir}/logrotate.d/system-image-update
+
+    install -d ${D}${libexecdir}
+    install -m 0755 ${WORKDIR}/public.pem ${D}${libexecdir}/public.pem
 }
 
 FILES_${PN} += "${sysconfdir}"
