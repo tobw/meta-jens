@@ -13,6 +13,8 @@ bitbake_var() {
 
 set -x
 
+test -f ~/private.pem || die "Key not found"
+
 RECIPE_DIR="`dirname $0`"
 while [ ! -d "${RECIPE_DIR}/conf" ];
 do

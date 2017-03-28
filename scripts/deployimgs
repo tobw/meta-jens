@@ -54,11 +54,16 @@ MANIFEST="{
     }
 }"
 
+SIGN_KEY="`echo ~/private.pem`"
+MANIFEST_FILE="manifest.json"
+MANIFEST_DGST_FILE="${MANIFEST_FILE}.sign"
+echo "${MANIFEST}" > "${DEPLOY_DIR_IMAGE_BASE}/${MANIFEST_FILE}"
+openssl dgst -sha256 -sign ${SIGN_KEY} -out "${DEPLOY_DIR_IMAGE_BASE}/${MANIFEST_DGST_FILE}" "${DEPLOY_DIR_IMAGE_BASE}/${MANIFEST_FILE}"
+
 # XXX do a rsync instead ...
 for target in ${TARGETS}
 do
-    echo "$MANIFEST" | ssh "${USER}@${target}" "mkdir -p /var/tmp/${SYSIMG_VERSION}-nightly && cat >/var/tmp/${SYSIMG_VERSION}-nightly/manifest.json"
-    (cd ${DEPLOY_DIR_IMAGE_BASE} && tar cf - ${IMG_LIST}) | ssh "${USER}@${target}" "cd /var/tmp/${SYSIMG_VERSION}-nightly/ && tar xf -"
+    (cd ${DEPLOY_DIR_IMAGE_BASE} && tar cf - ${MANIFEST_FILE} ${MANIFEST_DGST_FILE} ${IMG_LIST}) | ssh "${USER}@${target}" "mkdir -p /var/tmp/${SYSIMG_VERSION}-nightly && cd /var/tmp/${SYSIMG_VERSION}-nightly/ && tar xf -"
 
     # ssh "${USER}@${target}" "sudo /opt/pkg/bin/image-import --directory /var/tmp/${SYSIMG_VERSION}-nightly/"
 done
