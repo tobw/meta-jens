@@ -2,6 +2,8 @@
 #
 PATH=/sbin:/bin:/usr/bin:/usr/sbin
 
+test -f /etc/ntp.conf.skip && exit 0
+
 # ntpd	init.d script for ntpdc from ntp.isc.org
 test -x /usr/sbin/ntpd -a -r /etc/ntp.conf || exit 0
 # rcS contains TICKADJ
