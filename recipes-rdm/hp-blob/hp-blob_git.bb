@@ -35,6 +35,8 @@ SRC_URI = "\
     file://gpg/random_seed \
     file://gpg/secring.gpg \
     file://gpg/trustdb.gpg \
+    file://test-hp-backup.sh \
+    file://test-hp-backup.crond \
 "
 
 S = "${WORKDIR}/git"
@@ -95,6 +97,10 @@ do_install_append () {
 	# 3 Disable all but hp
 	touch ${D}${SVC_SERVICES}/dfservice/down
 	touch ${D}${SVC_SERVICES}/homepilot-backup-restore/down
+
+	install -d ${D}${sysconfdir}/cron.d
+	install -m 0600 ${WORKDIR}/test-hp-backup.crond ${D}${sysconfdir}/cron.d/test-hp-backup
+	install -m 0755 ${WORKDIR}/test-hp-backup.sh ${D}${INST_DEST_PREFIX}/bin/test-hp-backup.sh
 }
 
 FILES_${PN} += "${INST_DEST_PREFIX} \

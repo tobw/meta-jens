@@ -1,0 +1,7 @@
+# /etc/cron.d/test-hp-backup
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+# m h	dom mon dow	user	command
+30 4	* * *	root	cd / && /opt/homepilot/bin/test-hp-backup.sh
